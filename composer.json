@@ -1,0 +1,6 @@
+{
+    "require": {
+        "consolidation/robo": "^1.1",
+        "geerlingguy/ping": "^1.1"
+    }
+}
