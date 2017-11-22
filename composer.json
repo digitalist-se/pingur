@@ -8,7 +8,8 @@
         "symfony/event-dispatcher": "^3.3",
         "symfony/yaml": "^3.3",
         "symfony/proxy-manager-bridge": "^3.3",
-        "spatie/ssl-certificate": "^1.11"
+        "spatie/ssl-certificate": "^1.11",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "bin": [
         "app/pingur"

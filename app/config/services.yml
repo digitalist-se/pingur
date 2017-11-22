@@ -28,3 +28,9 @@ services:
         tags:
           - {name: console.command}
 
+    pingur.command.response:
+        class: Pingur\Command\ResponseCommand
+        arguments: ['@PingurContainer']
+        lazy: true
+        tags:
+          - {name: console.command}
