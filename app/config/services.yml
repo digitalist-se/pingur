@@ -20,3 +20,11 @@ services:
         lazy: true
         tags:
           - {name: console.command}
+
+    pingur.command.check:cert:
+        class: Pingur\Command\CertCheckCommand
+        arguments: ['@PingurContainer']
+        lazy: true
+        tags:
+          - {name: console.command}
+
