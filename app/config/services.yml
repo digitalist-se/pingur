@@ -1,0 +1,22 @@
+services:
+    symfony.application:
+      class: Symfony\Component\Console\Application
+      arguments:
+        - 'pingur'
+        - '0.0.1'
+    symfony.console_output:
+      class: Symfony\Component\Console\Output\ConsoleOutput
+
+    pingur.command.about:
+        class: Pingur\Command\AboutCommand
+        arguments: ['@PingurContainer']
+        lazy: true
+        tags:
+          - {name: console.command}
+
+    pingur.command.ping:
+        class: Pingur\Command\PingCommand
+        arguments: ['@PingurContainer']
+        lazy: true
+        tags:
+          - {name: console.command}

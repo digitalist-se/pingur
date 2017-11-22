@@ -1,6 +1,5 @@
 {
     "require": {
-        "consolidation/robo": "^1.1",
         "geerlingguy/ping": "^1.1",
         "symfony/console": "^3.3",
         "symfony/process": "^3.3",
@@ -13,10 +12,9 @@
     "bin": [
         "app/pingur"
     ],
-
-    "autoload":{
-        "psr-4":{
-            "Pingur\\":"src"
+    "autoload": {
+        "psr-4": {
+            "": "src/"
         }
     }
 }
