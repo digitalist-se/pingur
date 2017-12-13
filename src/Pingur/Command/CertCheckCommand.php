@@ -24,7 +24,7 @@ class CertCheckCommand extends Command {
   protected function configure() {
     $HelpText = 'The <info>cert:check</info> will ping url.
 <comment>Samples:</comment>
-<info>pingur ping --url=foobar.com</info>';
+<info>pingur ping --url=http://foobar.com</info>';
 
     $this->setName("cert:check")
       ->setDescription("check cert for a site")
