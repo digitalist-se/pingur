@@ -24,7 +24,7 @@ class CertCheckCommand extends Command {
   protected function configure() {
     $HelpText = 'The <info>cert:check</info> will ping url.
 <comment>Samples:</comment>
-<info>pingur ping --url=foobar.com</info>';
+<info>pingur ping --url=http://foobar.com</info>';
 
     $this->setName("cert:check")
       ->setDescription("check cert for a site")
@@ -37,6 +37,13 @@ class CertCheckCommand extends Command {
             'URL to check',
             null
           ),
+          new InputOption(
+            'delimiter',
+            'd',
+            InputOption::VALUE_OPTIONAL,
+            'Delimiter to display additinal domains',
+            ','
+          ),
         ]
       )
       ->setHelp($HelpText);
@@ -46,15 +53,22 @@ class CertCheckCommand extends Command {
   protected function execute(InputInterface $input, OutputInterface $output) {
 
     $url = $input->getOption('url');
+    $delimiter = $input->getOption('delimiter');
     $check = SslCertificate::createForHostName($url);
     $issuer = $check->getIssuer();
     $algorithm = $check->getSignatureAlgorithm();
     $expiration = $check->expirationDate();
     $domain = $check->getDomain();
+    $before = null;
     //$addiontional_domains = null;
     $addiontional_domains = $check->getAdditionalDomains();
     if (is_array($addiontional_domains)) {
-      $addiontional_domains = implode(',', $addiontional_domains);
+      $addiontional_domains = implode($delimiter, $addiontional_domains);
+    }
+    // This is for using acme.sh
+    // https://gitlab.wklive.net/wk-public/jelastic-lb-acme
+    if ($delimiter == ' -d ') {
+      $before = '-d';
     }
 
     $output->writeln("<info>Cert:\n" .
@@ -62,7 +76,7 @@ class CertCheckCommand extends Command {
       "\tAlgorithm: $algorithm\n" .
       "\tExpiration: $expiration\n" .
       "\tDomain: $domain\n" .
-      "\tAdditional domains: $addiontional_domains" .
+      "\tAdditional domains: $before $addiontional_domains" .
       "</info>");
   }
 }
