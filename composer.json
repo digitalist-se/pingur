@@ -10,7 +10,8 @@
         "symfony/proxy-manager-bridge": "^3.3",
         "spatie/ssl-certificate": "^1.11",
         "guzzlehttp/guzzle": "^6.3",
-        "doctrine/doctrine-bundle": "^1.8"
+        "doctrine/doctrine-bundle": "^1.8",
+        "swiftmailer/swiftmailer": "^6.0"
     },
     "bin": [
         "app/pingur"
