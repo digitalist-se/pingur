@@ -15,6 +15,7 @@ use JJG\Ping;
 class PingCommand extends Command {
 
   protected $container;
+  protected static $defaultName = 'ping';
 
   public function __construct(ContainerBuilder $container) {
     parent::__construct();

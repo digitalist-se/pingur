@@ -15,6 +15,7 @@ use Spatie\SslCertificate\SslCertificate;
 class CertCheckCommand extends Command {
 
   protected $container;
+  protected static $defaultName = 'cert:check';
 
   public function __construct(ContainerBuilder $container) {
     parent::__construct();

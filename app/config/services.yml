@@ -1,4 +1,9 @@
 services:
+
+    _defaults:
+      autowire: true
+      autoconfigure: true
+
     symfony.application:
       class: Symfony\Component\Console\Application
       arguments:
@@ -30,6 +35,12 @@ services:
 
     pingur.command.response:
         class: Pingur\Command\ResponseCommand
+        arguments: ['@PingurContainer']
+        lazy: true
+        tags:
+          - {name: console.command}
+    pingur.command.run:checks:
+        class: Pingur\Command\RunChecksCommand
         arguments: ['@PingurContainer']
         lazy: true
         tags:

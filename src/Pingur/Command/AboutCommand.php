@@ -11,7 +11,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class AboutCommand extends Command
 {
+
     protected $container;
+    protected static $defaultName = 'about';
 
     public function __construct(ContainerBuilder $container)
     {
