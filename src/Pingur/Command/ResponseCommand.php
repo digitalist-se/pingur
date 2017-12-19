@@ -40,6 +40,20 @@ class ResponseCommand extends Command {
             'URL to check',
             null
           ),
+            new InputOption(
+                'pass',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'password',
+                null
+            ),
+            new InputOption(
+                'user',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'user',
+                null
+            ),
           new InputOption(
             'needle',
             null,
@@ -57,9 +71,18 @@ class ResponseCommand extends Command {
 
     $url = $input->getOption('url');
     $needle = $input->getOption('needle');
+    $user = $input->getOption('user');
+    $pass = $input->getOption('pass');
 
     $client = new GuzzleHttp\Client();
-    $response = $client->request('GET', "$url");
+
+    if (isset($pass) && isset($user)) {
+        $response = $client->request('GET', "$url", ['auth' => [$user, $pass]]);
+    } else {
+        $response = $client->request('GET', "$url");
+    }
+
+
     $status_code = $response->getStatusCode();
 
     $status_code_check = new StatusCode($status_code);
