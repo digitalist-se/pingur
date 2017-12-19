@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputOption;
 use Spatie\SslCertificate\SslCertificate;
+use DateTime;
 
 
 class CertCheckCommand extends Command {
@@ -72,10 +73,14 @@ class CertCheckCommand extends Command {
       $before = '-d';
     }
 
+    $currentTime = new DateTime();
+    $expirationTime = new DateTime($expiration);
+    $difference = $currentTime->diff($expirationTime);
+
     $output->writeln("<info>Cert:\n" .
       "\tIssuer: $issuer\n" .
       "\tAlgorithm: $algorithm\n" .
-      "\tExpiration: $expiration\n" .
+      "\tExpiration: $expiration (in $difference->days days)\n" .
       "\tDomain: $domain\n" .
       "\tAdditional domains: $before $addiontional_domains" .
       "</info>");

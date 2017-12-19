@@ -50,7 +50,7 @@ class PingCommand extends Command {
     $ping = new Ping($host);
     $latency = $ping->ping();
     if ($latency !== false) {
-      print 'Latency is ' . $latency . ' ms';
+      $output->writeln("<info>Latency:\n\t" . $latency . ' ms' . "</info>\n\n");
     }
     else {
       print 'Host could not be reached.';

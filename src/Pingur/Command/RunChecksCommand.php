@@ -47,6 +47,8 @@ class RunChecksCommand extends Command {
 
     $checks = Yaml::parseFile($file);
     foreach($checks as $site => $settings) {
+      echo $site;
+      echo "\n" . '----------------------' . "\n";
       if($settings['https']) {
         $command = $this->getApplication()->find('cert:check');
         $arguments = array(
@@ -73,6 +75,14 @@ class RunChecksCommand extends Command {
           );
           $greetInput = new ArrayInput($arguments);
           $returnCode = $command->run($greetInput, $output);
+
+          $command = $this->getApplication()->find('ping');
+          $arguments = array(
+                'command' => 'response',
+                '--url' => $site,
+            );
+            $greetInput = new ArrayInput($arguments);
+            $returnCode = $command->run($greetInput, $output);
       }
       //var_dump($settings[0]['https']);
     }

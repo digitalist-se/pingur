@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a77df5b21c2b485ba4ef3d2133980317",
+    "content-hash": "a56107c8f2080afeae23719e7d8a0c91",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1554,6 +1554,44 @@
                 "simple-cache"
             ],
             "time": "2017-01-02T13:31:39+00:00"
+        },
+        {
+            "name": "snapshotpl/status-code",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/snapshotpl/status-code.git",
+                "reference": "593c904f21a8e7789e3b4e7d5c649d2bb6e6527f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/snapshotpl/status-code/zipball/593c904f21a8e7789e3b4e7d5c649d2bb6e6527f",
+                "reference": "593c904f21a8e7789e3b4e7d5c649d2bb6e6527f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5 || ^7.0",
+                "psr/http-message": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8",
+                "zendframework/zend-diactoros": "^1.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Snapshotpl\\StatusCode\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "HTTP status code value object implementation in PHP",
+            "keywords": [
+                "Value Object",
+                "http",
+                "psr-7",
+                "status code"
+            ],
+            "time": "2016-02-19T18:47:49+00:00"
         },
         {
             "name": "spatie/macroable",

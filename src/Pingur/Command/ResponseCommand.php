@@ -12,7 +12,7 @@ use Swift_SmtpTransport;
 use Swift_Mailer;
 use Swift_Message;
 use JJG\Ping;
-
+use Snapshotpl\StatusCode\StatusCode;
 
 class ResponseCommand extends Command {
 
@@ -61,6 +61,9 @@ class ResponseCommand extends Command {
     $client = new GuzzleHttp\Client();
     $response = $client->request('GET', "$url");
     $status_code = $response->getStatusCode();
+
+    $status_code_check = new StatusCode($status_code);
+
     $content_type =$response->getHeaderLine('content-type');
     $body = $response->getBody();
     $found_output = null;
@@ -72,9 +75,9 @@ class ResponseCommand extends Command {
     }
 
     $output->writeln("<info>Response:\n" .
-      "\tStatus code: $status_code\n" .
+      "\tStatus code: $status_code_check\n" .
       "\tContent type: $content_type\n" .
-      "\tNeedle: $found_output\n" .
+      "\tHaystack: $found_output\n" .
       "</info>");
 
 /*
