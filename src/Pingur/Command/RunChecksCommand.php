@@ -47,6 +47,7 @@ class RunChecksCommand extends Command {
 
     $checks = Yaml::parseFile($file);
     foreach($checks as $site => $settings) {
+
       echo $site;
       echo "\n" . '----------------------' . "\n";
       if($settings['https']) {
@@ -67,12 +68,29 @@ class RunChecksCommand extends Command {
         if($settings['https']) {
           $protocol = 'https://';
         }
+
+
         $command = $this->getApplication()->find('response');
-        $arguments = array(
-              'command' => 'response',
-              '--url' => $protocol . $site . '/' . $settings['url'],
-              '--needle' => $needle,
-          );
+
+        if (isset($settings['basic-auth']['pass']) && $settings['basic-auth']['user']) {
+            $pass = $settings['basic-auth']['pass'];
+            $user = $settings['basic-auth']['user'];
+            $arguments = array(
+                'command' => 'response',
+                '--url' => $protocol . $site . '/' . $settings['url'],
+                '--needle' => $needle,
+                '--user' => $user,
+                '--pass' => $pass,
+            );
+
+        } else {
+            $arguments = array(
+                'command' => 'response',
+                '--url' => $protocol . $site . '/' . $settings['url'],
+                '--needle' => $needle,
+            );
+        }
+
           $greetInput = new ArrayInput($arguments);
           $returnCode = $command->run($greetInput, $output);
 
