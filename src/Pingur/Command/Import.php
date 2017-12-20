@@ -8,22 +8,22 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
 use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
 
-class ImportCommand extends \Doctrine\DBAL\Tools\Console\Command\ImportCommand {
-
-protected function execute(InputInterface $input, OutputInterface $output)
+class ImportCommand extends \Doctrine\DBAL\Tools\Console\Command\ImportCommand
 {
-$container = $this->getApplication()->getKernel()->getContainer();
 
-$doctrine = $container->get('doctrine');
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $container = $this->getApplication()->getKernel()->getContainer();
 
-$em = $doctrine->getEntityManager();
-$db = $em->getConnection();
+        $doctrine = $container->get('doctrine');
 
-$helperSet = $this->getHelperSet();
-$helperSet->set( new ConnectionHelper( $db ), 'db' );
-$helperSet->set( new EntityManagerHelper( $em ), 'em' );
+        $em = $doctrine->getEntityManager();
+        $db = $em->getConnection();
 
-parent::execute( $input, $output );
-}
+        $helperSet = $this->getHelperSet();
+        $helperSet->set(new ConnectionHelper($db), 'db');
+        $helperSet->set(new EntityManagerHelper($em), 'em');
 
+        parent::execute($input, $output);
+    }
 }

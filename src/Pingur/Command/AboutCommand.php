@@ -8,7 +8,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Process\Process;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-
 class AboutCommand extends Command
 {
 

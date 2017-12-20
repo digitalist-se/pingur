@@ -14,32 +14,34 @@ use Swift_Message;
 use JJG\Ping;
 use Snapshotpl\StatusCode\StatusCode;
 
-class ResponseCommand extends Command {
+class ResponseCommand extends Command
+{
 
-  protected $container;
-  protected static $defaultName = 'response';
+    protected $container;
+    protected static $defaultName = 'response';
 
-  public function __construct(ContainerBuilder $container) {
-    parent::__construct();
-    $this->container = $container;
-  }
+    public function __construct(ContainerBuilder $container)
+    {
+        parent::__construct();
+        $this->container = $container;
+    }
 
-  protected function configure() {
-    $HelpText = 'The <info>cert:check</info> will ping url.
-<comment>Samples:</comment>
-<info>pingur ping --url=foobar.com</info>';
+    protected function configure()
+    {
+        $HelpText = 'The <info>%command.name%</info> will check response.</info>';
 
-    $this->setName("response")
-      ->setDescription("check response for site")
-      ->setDefinition(
-        [
-          new InputOption(
-            'url',
-            'u',
-            InputOption::VALUE_OPTIONAL,
-            'URL to check',
-            null
-          ),
+        $this->setName("response")
+        ->setDescription("check response for site")
+        ->addUsage('--url=https://foo.com --pass=foo --user=bar --needle="text to find on page"')
+        ->setDefinition(
+            [
+            new InputOption(
+                'url',
+                'u',
+                InputOption::VALUE_OPTIONAL,
+                'URL to check',
+                null
+            ),
             new InputOption(
                 'pass',
                 null,
@@ -54,66 +56,66 @@ class ResponseCommand extends Command {
                 'user',
                 null
             ),
-          new InputOption(
-            'needle',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Needle to check for in haystack (url)',
-            null
-          ),
-        ]
-      )
-      ->setHelp($HelpText);
-
-  }
-
-  protected function execute(InputInterface $input, OutputInterface $output) {
-
-    $url = $input->getOption('url');
-    $needle = $input->getOption('needle');
-    $user = $input->getOption('user');
-    $pass = $input->getOption('pass');
-
-    $client = new GuzzleHttp\Client();
-
-    if (isset($pass) && isset($user)) {
-        $response = $client->request('GET', "$url", ['auth' => [$user, $pass]]);
-    } else {
-        $response = $client->request('GET', "$url");
+            new InputOption(
+                'needle',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Needle to check for in haystack (url)',
+                null
+            ),
+            ]
+        )
+        ->setHelp($HelpText);
     }
 
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
 
-    $status_code = $response->getStatusCode();
+        $url = $input->getOption('url');
+        $needle = $input->getOption('needle');
+        $user = $input->getOption('user');
+        $pass = $input->getOption('pass');
 
-    $status_code_check = new StatusCode($status_code);
+        $client = new GuzzleHttp\Client();
 
-    $content_type =$response->getHeaderLine('content-type');
-    $body = $response->getBody();
-    $found_output = null;
-    if (isset($needle)) {
-      $found_output = "needle not found";
-      if ($this->NeedleInHaystack($needle, $body) == true) {
-        $found_output = "needle found";
-      }
+        if (isset($pass) && isset($user)) {
+            $response = $client->request('GET', "$url", ['auth' => [$user, $pass]]);
+        } else {
+            $response = $client->request('GET', "$url");
+        }
+
+
+        $status_code = $response->getStatusCode();
+
+        $status_code_check = new StatusCode($status_code);
+
+        $content_type =$response->getHeaderLine('content-type');
+        $body = $response->getBody();
+        $found_output = null;
+        if (isset($needle)) {
+            $found_output = "needle not found";
+            if ($this->NeedleInHaystack($needle, $body) == true) {
+                $found_output = "needle found";
+            }
+        }
+
+        $output->writeln("<info>Response:\n" .
+        "\tStatus code: $status_code_check\n" .
+        "\tContent type: $content_type\n" .
+        "\tHaystack: $found_output\n" .
+        "</info>");
+
+  /*
+
+      $transport = new Swift_SmtpTransport('mailhog.wkstage.se', '1025');
+      $mailer = new Swift_Mailer($transport);
+      $message = new Swift_Message("$url is giving a $status_code");
+      $message->setFrom('mikke.schiren@digitalistgroup.com');
+      $message->setTo('mikke.schiren@digitalistgroup.com');
+      $message->setBody("Hi!\nThe thing is that\n$url is giving a $status_code");
+      $result = $mailer->send($message);
+      */
     }
-
-    $output->writeln("<info>Response:\n" .
-      "\tStatus code: $status_code_check\n" .
-      "\tContent type: $content_type\n" .
-      "\tHaystack: $found_output\n" .
-      "</info>");
-
-/*
-
-    $transport = new Swift_SmtpTransport('mailhog.wkstage.se', '1025');
-    $mailer = new Swift_Mailer($transport);
-    $message = new Swift_Message("$url is giving a $status_code");
-    $message->setFrom('mikke.schiren@digitalistgroup.com');
-    $message->setTo('mikke.schiren@digitalistgroup.com');
-    $message->setBody("Hi!\nThe thing is that\n$url is giving a $status_code");
-    $result = $mailer->send($message);
-    */
-  }
 
 
   /**
@@ -122,13 +124,12 @@ class ResponseCommand extends Command {
    *
    * @return bool
    */
-  public function NeedleInHaystack($needle, $body) {
-    if (strpos($body, $needle) !== false) {
-      return true;
+    public function NeedleInHaystack($needle, $body)
+    {
+        if (strpos($body, $needle) !== false) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    else {
-      return false;
-    }
-  }
-
 }

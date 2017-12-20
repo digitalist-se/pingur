@@ -10,11 +10,9 @@
         "symfony/proxy-manager-bridge": "^3.3",
         "spatie/ssl-certificate": "^1.11",
         "guzzlehttp/guzzle": "^6.3",
-        "doctrine/doctrine-bundle": "^1.8",
         "swiftmailer/swiftmailer": "^6.0",
-        "doctrine/dbal": "^2.5",
-        "doctrine/orm": "^2.5",
-        "snapshotpl/status-code": "^1.0"
+        "snapshotpl/status-code": "^1.0",
+        "lygav/php-slackbot": "^0.0.4"
     },
     "bin": [
         "app/pingur"

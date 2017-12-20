@@ -19,7 +19,6 @@ if (file_exists(CLI_ROOT . '/vendor/autoload.php')) {
     require CLI_ROOT . '/../../../autoload.php';
 }
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Console\Application;
 use Symfony\Bridge\ProxyManager\LazyProxy\Instantiator\RuntimeInstantiator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;

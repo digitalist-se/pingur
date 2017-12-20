@@ -45,3 +45,9 @@ services:
         lazy: true
         tags:
           - {name: console.command}
+    slack.command.run:checks:
+        class: Pingur\Command\SlackCommand
+        arguments: ['@PingurContainer']
+        lazy: true
+        tags:
+          - {name: console.command, command: slack}
