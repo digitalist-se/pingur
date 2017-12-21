@@ -4,9 +4,7 @@ namespace Pingur\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Process\Process;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -51,11 +49,11 @@ class RunChecksCommand extends Command
         foreach ($checks as $site => $settings) {
             echo $site;
             echo "\n" . '----------------------' . "\n";
-            if ($settings['https']) {
+            if (isset($settings['https'])) {
                 $command = $this->getApplication()->find('cert:check');
                 $arguments = array(
                 'command' => 'cert:check',
-                '--url' => $site,
+                '--domain' => $site,
                 );
                 $greetInput = new ArrayInput($arguments);
                 $returnCode = $command->run($greetInput, $output);
@@ -65,8 +63,8 @@ class RunChecksCommand extends Command
             if (isset($settings['needle'])) {
                 $needle = $settings['needle'];
             }
-            if ($settings['url']) {
-                if ($settings['https']) {
+            if (isset($settings['url'])) {
+                if (isset($settings['https'])) {
                     $protocol = 'https://';
                 }
 
@@ -108,8 +106,6 @@ class RunChecksCommand extends Command
     }
     public function DoReport($error, $site)
     {
-
-
 
         $command = $this->getApplication()->find('slack');
         $arguments = array(

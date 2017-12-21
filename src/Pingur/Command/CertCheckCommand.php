@@ -5,12 +5,12 @@ namespace Pingur\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Process\Process;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputOption;
 use Spatie\SslCertificate\SslCertificate;
 use DateTime;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Yaml\Yaml;
 
 class CertCheckCommand extends Command
 {
@@ -26,25 +26,19 @@ class CertCheckCommand extends Command
 
     protected function configure()
     {
-        $HelpText = 'The <info>%command.name%</info> will check SSL cert for provided url.';
+        $HelpText = 'The <info>%command.full_name%</info> will check SSL cert for provided url.';
         $this->setName("cert:check")
-        ->setDescription("check cert for a site")
-        ->addUsage('--url=https://foobar.com')
+        ->setAliases(['cc'])
+        ->setDescription("check a SSL cert for a site")
+        ->addUsage('--domain=foobar.com')
         ->setDefinition(
             [
             new InputOption(
-                'url',
-                'u',
+                'domain',
+                'd',
                 InputOption::VALUE_OPTIONAL,
                 'URL to check',
                 null
-            ),
-            new InputOption(
-                'delimiter',
-                'd',
-                InputOption::VALUE_OPTIONAL,
-                'Delimiter to display additinal domains',
-                ','
             ),
             ]
         )
@@ -54,32 +48,48 @@ class CertCheckCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $url = $input->getOption('url');
-        $delimiter = $input->getOption('delimiter');
+        $url = $input->getOption('domain');
         $check = SslCertificate::createForHostName($url);
         $issuer = $check->getIssuer();
         $algorithm = $check->getSignatureAlgorithm();
         $expiration = $check->expirationDate();
         $domain = $check->getDomain();
-        $before = null;
         $additional = null;
-      // This is for using acme.sh
-      // https://gitlab.wklive.net/wk-public/jelastic-lb-acme
-        if ($delimiter == ' -d ') {
-            $before = '-d';
-        }
+
+        $config_file = '.pingur/config.yml';
+        $running_path = getcwd();
+        $config = Yaml::parseFile("$running_path/$config_file");
+
 
         $additional_domains = $check->getAdditionalDomains();
         if (count($additional_domains)>1) {
-            $domains = implode($delimiter, $additional_domains);
+            $domains = implode(', ', $additional_domains);
         }
         if (isset($domains)) {
-            $additional = "\n\tAdditional domains: $before$domains";
+            $additional = "\n\tAdditional domains: $domains";
         }
 
+        // calculate time.
         $currentTime = new DateTime("now");
         $expirationTime = new DateTime($expiration);
         $difference = $currentTime->diff($expirationTime);
+
+        // get days before the cert expire that we should warn
+        $days = $config['cert']['warning'];
+
+        if($expirationTime->diff($currentTime)->days <= $days)
+        {
+            $tell = "Cert for $url expires in $difference->days days";
+            $command = $this->getApplication()->find('slack');
+            $arguments = array(
+                    'command' => 'cert:check',
+                    '--endpoint' => $config['slack']['endpoint'],
+                    '--message' => $tell,
+            );
+            $greetInput = new ArrayInput($arguments);
+            $returnCode = $command->run($greetInput, $output);
+
+        }
 
         $output->writeln("<info>Cert:\n" .
         "\tIssuer: $issuer\n" .

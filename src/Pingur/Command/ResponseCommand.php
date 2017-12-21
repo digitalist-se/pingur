@@ -8,10 +8,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Console\Input\InputOption;
 use GuzzleHttp;
-use Swift_SmtpTransport;
-use Swift_Mailer;
-use Swift_Message;
-use JJG\Ping;
 use Snapshotpl\StatusCode\StatusCode;
 
 class ResponseCommand extends Command
@@ -104,17 +100,6 @@ class ResponseCommand extends Command
         "\tContent type: $content_type\n" .
         "\tHaystack: $found_output\n" .
         "</info>");
-
-  /*
-
-      $transport = new Swift_SmtpTransport('mailhog.wkstage.se', '1025');
-      $mailer = new Swift_Mailer($transport);
-      $message = new Swift_Message("$url is giving a $status_code");
-      $message->setFrom('mikke.schiren@digitalistgroup.com');
-      $message->setTo('mikke.schiren@digitalistgroup.com');
-      $message->setBody("Hi!\nThe thing is that\n$url is giving a $status_code");
-      $result = $mailer->send($message);
-      */
     }
 
 
