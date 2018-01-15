@@ -2,7 +2,7 @@
 
 early version, for now only warnings for ssl certs that are going to expire
 
-to setup pingur, upload a phar (best build with box - build with `./box -v`).
+to setup pingur, upload a phar (best build with box - build with `./box build -v`).
 
 create a .pingur folder, add a file called config.yml
 in that file add endpoint for slack and how many days before notices should be sent to slack for expiring certs.
