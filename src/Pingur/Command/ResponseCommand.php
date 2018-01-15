@@ -74,12 +74,12 @@ class ResponseCommand extends Command
 
         $client = new GuzzleHttp\Client();
 
-        if (isset($pass) && isset($user)) {
-            $response = $client->request('GET', "$url", ['auth' => [$user, $pass]]);
-        } else {
-            $response = $client->request('GET', "$url");
-        }
 
+        if (isset($pass) && isset($user)) {
+            $response = $client->request('GET', "$url", ['auth' => [$user, $pass], 'http_errors' => false]);
+        } else {
+            $response = $client->request('GET', "$url", ['http_errors' => false]);
+        }
 
         $status_code = $response->getStatusCode();
 
