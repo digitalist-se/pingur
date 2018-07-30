@@ -11,7 +11,8 @@
         "spatie/ssl-certificate": "^1.11",
         "guzzlehttp/guzzle": "^6.3",
         "snapshotpl/status-code": "^1.0",
-        "lygav/php-slackbot": "^0.0.4"
+        "lygav/php-slackbot": "^0.0.4",
+        "influxdb/influxdb-php": "^1.14"
     },
     "bin": [
         "app/pingur"
