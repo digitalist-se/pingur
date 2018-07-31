@@ -1,8 +1,0 @@
----
-- include: php.yml
-- include: apache.yml
-- include: mariadb.yml
-- include: xdebug.yml
-- include: memcached.yml
-- include: composer.yml
-- include: postfix.yml
