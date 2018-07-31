@@ -1,0 +1,10 @@
+---
+# config for pingur
+slack:
+  endpoint:
+cert:
+  warning: 10 #how many days before expiration pingur should warn
+influxdb:
+  url: 
+  port: 
+  db: 
