@@ -10,7 +10,8 @@ use InfluxDB\ResultSet;
 
 class Db
 {
-    public function publish($config, $measurement) {
+    public function publish($config, $measurement)
+    {
 
 
         $client = new Client($config['url'], $config['port']);

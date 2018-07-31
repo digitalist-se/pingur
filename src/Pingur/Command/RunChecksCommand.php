@@ -100,19 +100,6 @@ class RunChecksCommand extends Command
                   $greetInput = new ArrayInput($arguments);
                   $returnCode = $command->run($greetInput, $output);
             }
-          //$this->DoReport($error);
-          //var_dump($settings[0]['https']);
         }
-    }
-    public function DoReport($error, $site)
-    {
-
-        $command = $this->getApplication()->find('slack');
-        $arguments = array(
-          'command' => 'slack',
-          '--url' => $site,
-        );
-        $greetInput = new ArrayInput($arguments);
-        $returnCode = $command->run($greetInput, $output);
     }
 }
