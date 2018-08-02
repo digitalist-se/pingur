@@ -64,11 +64,10 @@ class RunChecksCommand extends Command
                 $needle = $settings['needle'];
             }
             if (isset($settings['url'])) {
-                if (isset($settings['https'])) {
+                if ($settings['https'] !== false) {
                     $protocol = 'https://';
                 }
-
-
+                
                 $command = $this->getApplication()->find('response');
 
                 if (isset($settings['basic-auth']['pass']) && $settings['basic-auth']['user']) {
