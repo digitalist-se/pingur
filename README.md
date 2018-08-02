@@ -16,16 +16,22 @@ slack:
   endpoint: https://hooks.slack.com/services/JHGJHGJHGT54667HJK
 cert:
   warning: 10 #how many days before expiration pingur should warn
+```
 
 setting up urls to check:
 
 create a yml file, example urls.yml:
-
 ```
 mysite.com:
 
 myothersite.com
   https: false
+  needle: 'bar' # text to check for in response in url request
+  url: 'foo/' # without slash in beginning.
+
+myforgottensite.com
+  needle: 'bar' # text to check for in response in url request
+  url: 'foo/' # without slash in beginning.
 
 ```
 
