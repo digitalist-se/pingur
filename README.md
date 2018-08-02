@@ -1,6 +1,6 @@
 # pingur
 
-Recomended use, is to use the docker image, and run it like this (using a file with domains in urls.yml, and config in config.yml):
+Recomended use, is to use the docker image https://hub.docker.com/r/digitalist/pingur.io/, and run it like this (using a file with domains in urls.yml, and config in config.yml):
 ```
 docker run -v $(pwd)/proddata/config.yml:/opt/pingur/.pingur/config.yml -v $(pwd)/urls.yml:/opt/pingur/urls.yml digitalist/pingur.io  pingur run:checks --file=urls.yml
 ```
