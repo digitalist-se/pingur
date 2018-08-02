@@ -1,13 +1,11 @@
 # pingur
 
 early version, for now only warnings for ssl certs that are going to expire
-
-to setup pingur, upload a phar (best build with box - build with `./box build -v`).
-
-create a .pingur folder, add a file called config.yml
-in that file add endpoint for slack and how many days before notices should be sent to slack for expiring certs.
-
-Like this:
+recomeneded use, is to use the docker image, and run it like this (using a file with domains in urls.yml):
+```
+docker run -v $(pwd)/proddata/config.yml:/opt/pingur/.pingur/config.yml -v $(pwd)/urls.yml:/opt/pingur/urls.yml digitalist/pingur.io  pingur run:checks --file=urls.yml
+```
+Example config.yml:
 
 ```
 ---
@@ -18,9 +16,8 @@ cert:
   warning: 10 #how many days before expiration pingur should warn
 ```
 
-setting up urls to check:
+Example urls.yml
 
-create a yml file, example urls.yml:
 ```
 mysite.com:
 
@@ -35,19 +32,7 @@ myforgottensite.com
 
 ```
 
-provide that file as a parameter to pingur for the run:checks command. like:
-
-
-``` 
-pingur run:checks --file=urls.yml
+For just running the cert check for one site:
 ```
-
-pingur should be runned from the path that has the .pingur folder, if the urls.yml 
-is in the same path just use the filename, otherwise provide absolute path
-
-
-# Docker
-To run pingur as docker container:
-docker run -v $(pwd)/proddata/config.yml:/opt/pingur/.pingur/config.yml -v $(pwd)/urls.yml:/opt/pingur/urls.yml pingur.io  pingur run:checks --file=urls.yml
-
-You need to add volumes for the config.yml adn urls.yml
+docker run digitalist/pingur.io  pingur c:c --domain=motherjones.com
+```
