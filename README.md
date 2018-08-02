@@ -1,7 +1,6 @@
 # pingur
 
-early version, for now only warnings for ssl certs that are going to expire
-recomeneded use, is to use the docker image, and run it like this (using a file with domains in urls.yml):
+Recomended use, is to use the docker image, and run it like this (using a file with domains in urls.yml, and config in config.yml):
 ```
 docker run -v $(pwd)/proddata/config.yml:/opt/pingur/.pingur/config.yml -v $(pwd)/urls.yml:/opt/pingur/urls.yml digitalist/pingur.io  pingur run:checks --file=urls.yml
 ```
@@ -35,4 +34,15 @@ myforgottensite.com
 For just running the cert check for one site:
 ```
 docker run digitalist/pingur.io  pingur c:c --domain=motherjones.com
+```
+
+## Influxdb
+pingur has support for using influxdb as a db backend for the results, just add url, port and db name in config.yml, like:
+
+```
+influxdb:
+  url: influxdbdomain
+  port: 8086
+  db: pingur
+
 ```
