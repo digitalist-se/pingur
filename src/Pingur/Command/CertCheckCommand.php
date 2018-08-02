@@ -58,6 +58,7 @@ class CertCheckCommand extends Command
         if (isset($clean_input['host'])) {
             $url = $clean_input['host'];
         }
+        $influxdb = false;
 
         $config_file = '.pingur/config.yml';
         $running_path = getcwd();
@@ -73,19 +74,21 @@ class CertCheckCommand extends Command
             $check_if_cert_exist = $this->certificateExists($url);
         } else {
             $tell = "Domain $url is down or does not exist\n";
-            $this->sendSlack($config, $tell, $output);
-            $output->writeln("<info>$url is down or does not exist</info>");
+            if (isset($config['slack'])) {
+                $this->sendSlack($config, $tell, $output);
+            }
 
-            $measurement = [];
-            $measurement['tag'] = 'pingur';
-            $measurement['domain'] = $url;
-            $measurement['info']['host'] = gethostname();
-            $measurement['info']['status'] = 'down';
-            $measurement['info']['expiration'] = 0;
-            $measurement['info']['issuer'] = '';
-            $measurement['info']['created'] =  0;
+            $output->writeln("<info>$tell</info>");
 
             if ($influxdb === true) {
+                $measurement = [];
+                $measurement['tag'] = 'pingur';
+                $measurement['domain'] = $url;
+                $measurement['info']['host'] = gethostname();
+                $measurement['info']['status'] = 'down';
+                $measurement['info']['expiration'] = 0;
+                $measurement['info']['issuer'] = '';
+                $measurement['info']['created'] =  0;
                 $this->insertMeasurement($config['influxdb'], $measurement);
             }
         }
@@ -116,9 +119,10 @@ class CertCheckCommand extends Command
 
             if ($expirationTime->diff($currentTime)->days <= $days) {
                 $tell = "Cert for $url expires in $difference->days days";
-                $this->sendSlack($config, $tell, $output);
+                if (isset($config['slack'])) {
+                    $this->sendSlack($config, $tell, $output);
+                }
             }
-
 
             $valid_from = $check->validFromDate();
             $measurement = [];
@@ -162,7 +166,7 @@ class CertCheckCommand extends Command
     public function certificateExists($url)
     {
         try {
-            $sslCertificate = Downloader::downloadCertificateFromUrl($url, 20);
+            $sslCertificate = Downloader::downloadCertificateFromUrl($url, 120);
             $seralize = serialize($sslCertificate);
             if (empty($seralize)) {
                 return false;

@@ -1,0 +1,10 @@
+---
+
+# add domains to check here.
+
+www.motherjones.com:
+
+www.theonion.com:
+
+thehill.com:
+  https: false

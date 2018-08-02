@@ -90,7 +90,7 @@ class ResponseCommand extends Command
         $found_output = null;
         if (isset($needle)) {
             $found_output = "needle not found";
-            if ($this->NeedleInHaystack($needle, $body) == true) {
+            if ($this->needleInHaystack($needle, $body) == true) {
                 $found_output = "needle found";
             }
         }
@@ -104,12 +104,12 @@ class ResponseCommand extends Command
 
 
   /**
-   * @param $needle
-   * @param $body
+   * @param string $needle
+   * @param string $body
    *
    * @return bool
    */
-    public function NeedleInHaystack($needle, $body)
+    public function needleInHaystack($needle, $body)
     {
         if (strpos($body, $needle) !== false) {
             return true;

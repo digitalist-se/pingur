@@ -49,7 +49,7 @@ class RunChecksCommand extends Command
         foreach ($checks as $site => $settings) {
             echo $site;
             echo "\n" . '----------------------' . "\n";
-            if (isset($settings['https'])) {
+            if ($settings['https'] !== false) {
                 $command = $this->getApplication()->find('cert:check');
                 $arguments = array(
                 'command' => 'cert:check',
