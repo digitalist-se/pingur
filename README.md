@@ -23,10 +23,9 @@ create a yml file, example urls.yml:
 
 ```
 mysite.com:
-  https: true
 
 myothersite.com
-  https: true
+  https: false
 
 ```
 
@@ -39,3 +38,10 @@ pingur run:checks --file=urls.yml
 
 pingur should be runned from the path that has the .pingur folder, if the urls.yml 
 is in the same path just use the filename, otherwise provide absolute path
+
+
+# Docker
+To run pingur as docker container:
+docker run -v $(pwd)/proddata/config.yml:/opt/pingur/.pingur/config.yml -v $(pwd)/urls.yml:/opt/pingur/urls.yml pingur.io  pingur run:checks --file=urls.yml
+
+You need to add volumes for the config.yml adn urls.yml
