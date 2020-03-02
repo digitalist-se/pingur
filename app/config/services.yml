@@ -56,4 +56,10 @@ services:
         arguments: ['@PingurContainer']
         lazy: true
         tags:
-          - {name: console.command}          
+          - {name: console.command}
+    pingur.command.crawl:
+        class: Pingur\Command\CrawlCommand
+        arguments: ['@PingurContainer']
+        lazy: true
+        tags:
+          - {name: console.command}             
