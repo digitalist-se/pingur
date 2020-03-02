@@ -2,7 +2,7 @@
     "require": {
         "geerlingguy/ping": "^1.1",
         "symfony/console": "^3.3",
-        "symfony/process": "^3.3",
+        "symfony/process": "^4",
         "symfony/config": "^3.3",
         "symfony/dependency-injection": "^3.3",
         "symfony/event-dispatcher": "^3.3",
@@ -12,7 +12,8 @@
         "guzzlehttp/guzzle": "^6.3",
         "snapshotpl/status-code": "^1.0",
         "lygav/php-slackbot": "^0.0.4",
-        "influxdb/influxdb-php": "^1.14"
+        "influxdb/influxdb-php": "^1.14",
+        "spatie/dns": "1.4.2"
     },
     "bin": [
         "app/pingur"
@@ -21,5 +22,7 @@
         "psr-4": {
             "": "src/"
         }
+    },
+    "require-dev": {
     }
 }

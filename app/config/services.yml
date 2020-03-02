@@ -51,3 +51,9 @@ services:
         lazy: true
         tags:
           - {name: console.command, command: slack}
+    pingur.command.check:dns:
+        class: Pingur\Command\DnsCommand
+        arguments: ['@PingurContainer']
+        lazy: true
+        tags:
+          - {name: console.command}          
